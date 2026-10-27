@@ -1,0 +1,6 @@
+/* ghost-* effects library. Spec: specs/04-effects-and-presets.md §4.1 · Task: T1.6
+   Rules: pure CSS, prefixed ghost-, every animation disabled under prefers-reduced-motion. */
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="ghost-"], [class*="ghost-"]::before, [class*="ghost-"]::after { animation: none !important; transition: none !important; }
+}

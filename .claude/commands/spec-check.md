@@ -1,0 +1,1 @@
+Compare `src/` against `specs/`. Report a short table: spec section → status (done / partial / missing / differs) → file. Then list the three most important gaps for the deadline (Sun Nov 1, 11:59 AM PKT), remembering the DEV post (writing quality) is weighted most. Do not change files.

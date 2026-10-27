@@ -1,0 +1,1 @@
+Security review of the preview sandbox and API (spec 05 §5.1, spec 03, spec 08 §8.4). Check: iframe sandbox attributes, CSP, postMessage origin/source checks, watchdog, server-side gate before any model call, rate limiting, API key never in client code. Report issues with file and line; fix only if the user asks.

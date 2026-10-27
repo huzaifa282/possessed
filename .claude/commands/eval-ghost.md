@@ -1,0 +1,1 @@
+Run `npm run eval` (spec 09 §9.3). Summarise: pass rate without retry, retries, failures by preset and fixture, median latency, contrast failures. Append the summary with today's date to `tasks/notes.md`. If the pass rate is under 90%, propose the smallest prompt or effects change, update spec 06 or 04 first, then implement it and re-run.

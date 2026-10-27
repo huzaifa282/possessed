@@ -1,0 +1,51 @@
+{
+  "name": "possessed",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "eval": "tsx scripts/eval-ghost.ts",
+    "postinstall": "tsx scripts/copy-vendor.ts"
+  },
+  "dependencies": {
+    "@codemirror/lang-html": "^6.4.12",
+    "@codemirror/lang-javascript": "^6.2.5",
+    "@fontsource/cinzel": "^5.3.0",
+    "@fontsource/cinzel-decorative": "^5.3.0",
+    "@fontsource/im-fell-english": "^5.3.0",
+    "@fontsource/rye": "^5.3.0",
+    "@fontsource/unifrakturcook": "^5.3.0",
+    "@fontsource/vt323": "^5.3.0",
+    "@tailwindcss/browser": "^4.3.3",
+    "@uiw/react-codemirror": "^4.25.12",
+    "diff": "^9.0.0",
+    "framer-motion": "^14.7.1",
+    "next": "16.4.3",
+    "parse5": "^8.0.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "sucrase": "^3.35.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "^4",
+    "@types/diff": "^7.0.2",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.5"
+  },
+  "description": "Paste a UI component and a ghost designer possesses it: spooky-themed code plus a live preview, powered by open-weight Gemma.",
+  "license": "Apache-2.0"
+}

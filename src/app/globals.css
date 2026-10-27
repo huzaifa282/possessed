@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Palette from specs/05-ouija-ui.md §5.5 */
+:root {
+  --wood-dark: #2a1d14;
+  --wood-light: #4a3322;
+  --ink: #e9dcc3;
+  --glow: #ffb347;
+  --spirit: #7fd1b9;
+  --room: #0b0908;
+}
+
+@theme inline {
+  --color-wood-dark: var(--wood-dark);
+  --color-wood-light: var(--wood-light);
+  --color-ink: var(--ink);
+  --color-glow: var(--glow);
+  --color-spirit: var(--spirit);
+  --color-room: var(--room);
+}
+
+body {
+  background: var(--room);
+  color: var(--ink);
+  font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+}
