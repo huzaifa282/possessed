@@ -16,6 +16,8 @@ const eslintConfig = defineConfig([
     "public/vendor/**",
     "public/fonts/**",
     "tests/eval-out/**",
+    // Sample components pasted by users; not our code
+    "tests/fixtures/**",
   ]),
 ]);
 

@@ -8,9 +8,9 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
   - Claim the free .tech domain and any DigitalOcean credit at hacktoberfest.com/my/promos. Note the domain in `decisions/0002-hosting-and-model.md`.
 - [x] **T1.3 · Types** (spec 02 "Key types")
   - Finish `src/types/index.ts` Zod schemas. AC: request/event schemas parse sample objects in a test.
-- [ ] **T1.4 · Language detection + size gate + refusals** (spec 03 §3.1–3.2)
+- [x] **T1.4 · Language detection + size gate + refusals** (spec 03 §3.1–3.2)
   - `src/lib/limits/detect.ts`, `gate.ts` with refusal message lists. AC: `gate.test.ts`, `detect.test.ts` pass on all fixtures.
-- [ ] **T1.5 · Fixture components** (spec 09 §9.2)
+- [x] **T1.5 · Fixture components** (spec 09 §9.2)
   - Add the positive and negative fixtures to `tests/fixtures/components/`.
 - [ ] **T1.6 · Effects catalogue + 2 presets** (spec 04)
   - `catalog.ts` with all effect descriptions; `effects.css` with at least `ghost-fog`, `ghost-candle`, `ghost-flicker`, `ghost-cobweb-*`, `ghost-crt`; presets Victorian + Terminal. AC: effects render in a plain HTML test page; reduced motion respected.
@@ -28,3 +28,5 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
 - T1.1: tests, typecheck, lint pass; dev serves 200 on :3000; LICENSE Apache 2.0; pushed to https://github.com/huzaifa282/possessed (main).
 - T1.2 skipped for now: needs the user to claim promos (claims use up inventory). Come back to it.
 - T1.3: schemas already matched spec 02; added `tests/types.test.ts` (request/event/version parsing + limits).
+- T1.5 done before T1.4 because the gate tests need the fixtures. `guideme-sidepanel.html` is a stand-in; swap in the real GuideMe panel before recording the demo. `huge-dashboard.jsx` is 268 lines. Fixtures are excluded from ESLint.
+- T1.4: `detect.ts`, `gate.ts` (3 refusal messages per reason, rule-6 message folded into `not_ui`), `tests/limits.test.ts` (36 tests total pass). `gate()` accepts `unknown` as a language; `<header>` is not mistaken for `<head>`; SQL keywords are matched uppercase only to avoid flagging prose.
