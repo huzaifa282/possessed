@@ -2,11 +2,11 @@
 
 Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox renders any HTML or JSX fixture safely.
 
-- [ ] **T1.1 · Repo + scaffold check** (spec 00, 02)
+- [x] **T1.1 · Repo + scaffold check** (spec 00, 02)
   - Create public `huzaifa282/possessed` (Apache 2.0), push this scaffold. `npm install`, `npm run dev`, `npm test` all succeed.
 - [ ] **T1.2 · Claim promos** (spec 08)
   - Claim the free .tech domain and any DigitalOcean credit at hacktoberfest.com/my/promos. Note the domain in `decisions/0002-hosting-and-model.md`.
-- [ ] **T1.3 · Types** (spec 02 "Key types")
+- [x] **T1.3 · Types** (spec 02 "Key types")
   - Finish `src/types/index.ts` Zod schemas. AC: request/event schemas parse sample objects in a test.
 - [ ] **T1.4 · Language detection + size gate + refusals** (spec 03 §3.1–3.2)
   - `src/lib/limits/detect.ts`, `gate.ts` with refusal message lists. AC: `gate.test.ts`, `detect.test.ts` pass on all fixtures.
@@ -25,4 +25,6 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
 
 ## Notes
 
-- T1.1 (partial): `npm test` (2 pass), `npm run typecheck`, `npm run lint` pass; `npm run dev` serves HTTP 200 on :3000; LICENSE is Apache 2.0. Still open: create public `huzaifa282/possessed` and push (`gh` CLI is not installed; `package-lock.json` has an uncommitted 1-line change).
+- T1.1: tests, typecheck, lint pass; dev serves 200 on :3000; LICENSE Apache 2.0; pushed to https://github.com/huzaifa282/possessed (main).
+- T1.2 skipped for now: needs the user to claim promos (claims use up inventory). Come back to it.
+- T1.3: schemas already matched spec 02; added `tests/types.test.ts` (request/event/version parsing + limits).
