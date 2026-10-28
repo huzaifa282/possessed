@@ -46,4 +46,5 @@ next-env.d.ts
 tests/eval-out/
 public/vendor/tailwind.browser.js
 public/vendor/effects.css
+public/vendor/fonts.css
 public/fonts/

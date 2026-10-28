@@ -8,6 +8,7 @@ Renders **untrusted** code (pasted and generated) safely, in the browser. `src/l
 - CSP meta inside the document:
   `default-src 'none'; script-src 'unsafe-inline' {appOrigin}/vendor/; style-src 'unsafe-inline' {appOrigin}/vendor/ {appOrigin}/fonts/; font-src {appOrigin}/fonts/; img-src data: blob:; connect-src 'none'; frame-src 'none'; form-action 'none'`
   (No `unsafe-eval`: the JSX transform runs in the parent app, see 5.3. Tailwind's browser build may need `unsafe-eval`; if so, add it, since the sandbox and `connect-src 'none'` still contain the code. Record the outcome in this spec.)
+  **Outcome (T1.10, Chrome):** the Tailwind v4 browser build works under this CSP without `unsafe-eval`, so the CSP stays as written.
 - Communication only via `postMessage`; the parent checks `event.source === iframe.contentWindow` and validates messages with Zod.
 - A render watchdog: if the frame doesn't report `ready` within 5 s (infinite loop), the parent replaces it and shows "The spirit froze. Try again."
 
@@ -31,7 +32,7 @@ Renders **untrusted** code (pasted and generated) safely, in the browser. `src/l
   1. Replace non-react imports with stubs (spec 03 §3.3).
   2. **In the parent app** (client bundle), Sucrase transforms the code (`transforms: ["jsx","typescript","imports"]`, `jsxRuntime: "classic"` so it uses the global `React`). The resulting JS is embedded as an inline `<script>` that assigns exports to `window.__module`. The frame never evaluates strings itself.
   3. Pick the component: default export, else the last exported function, else the last capitalised function.
-  4. Render inside an error boundary: `ReactDOM.createRoot(root).render(<Boundary><Component/></Boundary>)` with empty props. Runtime errors post `{type:"error", message}`.
+  4. Render inside an error boundary: `ReactDOM.createRoot(root).render(<Boundary><Component/></Boundary>)` with empty props (a component that needs props such as arrays will show the error boundary; see backlog). Runtime errors post `{type:"error", message}`.
 - The frame posts `{ type: "ready", height }` after the first paint; the parent resizes the frame (min 240 px, max 900 px, then scroll).
 
 ## 5.4 Before/after

@@ -6,11 +6,11 @@ interface NavLink {
 }
 
 interface NavbarProps {
-  brand: string;
-  links: NavLink[];
+  brand?: string;
+  links?: NavLink[];
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ brand, links }) => {
+export const Navbar: React.FC<NavbarProps> = ({ brand = "Possessed", links = [{ label: "Home", href: "/" }, { label: "Pricing", href: "/pricing" }, { label: "Contact", href: "/contact" }] }) => {
   return (
     <nav className="flex items-center justify-between bg-white px-6 py-4 shadow">
       <a href="/" className="text-xl font-bold text-gray-900">
