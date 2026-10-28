@@ -29,7 +29,7 @@
 
 1. **Hook:** every October clients ask for a spooky version of their site; it eats a week. 2–3 lines + hero GIF.
 2. **What I Built:** paste one component → possessed code + live preview + a ghost you can talk to. Presets grid. The refusal as personality *and* cost control.
-3. **Demo:** live link on the .tech domain + video + "try these samples".
+3. **Demo:** live link + video + "try these samples".
 4. **Code:** `{% github huzaifa282/possessed %}`
 5. **How I Built It:** pipeline diagram (gate → Gemma → streaming parser → validation/retry → sandboxed preview). The key design choice: a hand-made effects library so a small open model *chooses* effects instead of inventing CSS. Safety of running untrusted code. Real numbers: possession latency, validation pass rate from the eval, tokens per possession.
 6. **Why Does Open Innovation Matter?:** concrete:
@@ -38,7 +38,7 @@
    - You can see and change exactly how the ghost is prompted and constrained.
    - Honest trade-offs: where Gemma struggled (large components, complex JSX) and how the size gate and retry handle it.
 7. **The Spirit of It (optional):** the Día de los Muertos preset and designing it with respect.
-8. **Prize Categories:** DigitalOcean, Gemma, .tech Domain (+ TabPFN only if the Scare-o-meter ships).
+8. **Prize Categories:** DigitalOcean, Gemma (+ TabPFN only if the Scare-o-meter ships).
 9. **Closing:** "Bring me one component at a time."
 
 ## 10.4 Writing checklist

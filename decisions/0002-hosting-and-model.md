@@ -13,4 +13,4 @@ Host the Next.js app on DigitalOcean App Platform. Use Gemma 4 (open weights) th
 - Pasted code passes through the Gemini API in the default setup: stated plainly on the site and in the post (honesty about the trade-off).
 
 ## Domain
-(fill in after claiming the .tech domain)
+No custom domain. The .tech Domain prize category is not entered because claiming the free domain requires card details. The app is served from the default `*.ondigitalocean.app` URL.

@@ -1,4 +1,4 @@
-# 08 · Deploying on DigitalOcean (+ .tech domain)
+# 08 · Deploying on DigitalOcean
 
 ## 8.1 App Platform (P0)
 
@@ -11,12 +11,9 @@
 7. Health check path: `/api/health`.
 8. Credits: check `hacktoberfest.com/my/promos` and DigitalOcean's new-account credit before creating paid resources.
 
-## 8.2 .tech domain (P0, cheap win)
+## 8.2 Domain (dropped)
 
-1. Claim the free first-year `.tech` domain at `hacktoberfest.com/my/promos` (e.g. `possessed.tech` or `possessedui.tech`, whatever is available).
-2. App Platform → Settings → Domains → add the domain; follow the DNS instructions (CNAME/ALIAS or move nameservers to DigitalOcean).
-3. HTTPS is automatic.
-4. Link the domain in the README and the post.
+The .tech Domain prize category is not entered: claiming the free domain needs card details. The app is served from the default `*.ondigitalocean.app` URL (HTTPS automatic). Link that URL in the README and the post.
 
 ## 8.3 Optional: Gemma on a GPU Droplet (P2 / only with credits)
 

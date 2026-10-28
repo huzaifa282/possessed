@@ -5,7 +5,7 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
 - [x] **T1.1 · Repo + scaffold check** (spec 00, 02)
   - Create public `huzaifa282/possessed` (Apache 2.0), push this scaffold. `npm install`, `npm run dev`, `npm test` all succeed.
 - [ ] **T1.2 · Claim promos** (spec 08)
-  - Claim the free .tech domain and any DigitalOcean credit at hacktoberfest.com/my/promos. Note the domain in `decisions/0002-hosting-and-model.md`.
+  - Claim any DigitalOcean credit at hacktoberfest.com/my/promos. (.tech domain dropped: no card details; see ADR 0002.)
 - [x] **T1.3 · Types** (spec 02 "Key types")
   - Finish `src/types/index.ts` Zod schemas. AC: request/event schemas parse sample objects in a test.
 - [x] **T1.4 · Language detection + size gate + refusals** (spec 03 §3.1–3.2)
@@ -14,11 +14,11 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
   - Add the positive and negative fixtures to `tests/fixtures/components/`.
 - [x] **T1.6 · Effects catalogue + 2 presets** (spec 04)
   - `catalog.ts` with all effect descriptions; `effects.css` with at least `ghost-fog`, `ghost-candle`, `ghost-flicker`, `ghost-cobweb-*`, `ghost-crt`; presets Victorian + Terminal. AC: effects render in a plain HTML test page; reduced motion respected.
-- [ ] **T1.7 · Model provider (Gemma via Gemini API)** (spec 07 §7.1)
+- [x] **T1.7 · Model provider (Gemma via Gemini API)** (spec 07 §7.1)
   - Streaming, thought-part skipping, retries, model switch. AC: a script streams a short Gemma reply.
 - [x] **T1.8 · Prompt + streaming parser + validation** (spec 06 §6.3–6.6)
   - `prompt.ts`, `parse.ts`, `validate.ts`, `possess.ts` with one retry. AC: `parse.test.ts`, `validate.test.ts` pass.
-- [ ] **T1.9 · `npm run eval` (first pass)** (spec 09 §9.3)
+- [x] **T1.9 · `npm run eval` (first pass)** (spec 09 §9.3)
   - Possess each positive fixture in Victorian + Terminal; write outputs + summary to `tasks/notes.md`.
 - [x] **T1.10 · Preview sandbox** (spec 05 §5.1–5.3)
   - `scripts/copy-vendor.ts` (React 18 UMD, sucrase, tailwind browser, effects.css, fonts), `srcdoc.ts`, a bare `PreviewFrame.tsx`. AC: `srcdoc.test.ts` passes; HTML and JSX fixtures render; the malicious cases in spec 09 §9.4 can't escape.
@@ -26,7 +26,7 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
 ## Notes
 
 - T1.1: tests, typecheck, lint pass; dev serves 200 on :3000; LICENSE Apache 2.0; pushed to https://github.com/huzaifa282/possessed (main).
-- T1.2 deferred: only one free .tech domain can be claimed, so the project name must be final first. Claim it once the name is chosen, then note it in `decisions/0002-hosting-and-model.md`. The DigitalOcean credit can be claimed separately. Deadline-wise this must happen before the Day 2 deploy (T2.9 or similar).
+- T1.2: the .tech domain is dropped (decision: no card details), recorded in ADR 0002 and the specs. Only the optional DigitalOcean credit remains; check it before the T2.7 deploy.
 - T1.3: schemas already matched spec 02; added `tests/types.test.ts` (request/event/version parsing + limits).
 - T1.5 done before T1.4 because the gate tests need the fixtures. `guideme-sidepanel.html` is a stand-in; swap in the real GuideMe panel before recording the demo. `huge-dashboard.jsx` is 268 lines. Fixtures are excluded from ESLint.
 - T1.4: `detect.ts`, `gate.ts` (3 refusal messages per reason, rule-6 message folded into `not_ui`), `tests/limits.test.ts` (36 tests total pass). `gate()` accepts `unknown` as a language; `<header>` is not mistaken for `<head>`; SQL keywords are matched uppercase only to avoid flagging prose.
@@ -35,3 +35,4 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
 - T1.8: `prompt.ts`, `parse.ts` (streaming state machine), `validate.ts`, `possess.ts` (gate → stream → parse → validate → one retry; the whisper streams live and is not repeated on retry). Tests: `parse`, `validate`, `possess` (fake provider). Spec 06 §6.5 amended: a `refine` reply with no `<code>` is valid (it contradicted §6.2). HTML structure check ignores `<style>`/`<script>`/`<link>` so the one allowed `<style>` block does not count. Shared `SUCRASE_OPTIONS` now lives in `preview/transform.ts` (T1.10 builds on it). `getPreset` throws for presets not built yet (muertos, gothic, jinn → T2.8).
 - T1.9 (built, live run pending): `scripts/eval-ghost.ts` possesses each positive fixture × each implemented preset (`--presets=`, `--only=`, `--intensity=` flags), counts model calls to detect retries, writes outputs to `tests/eval-out/` (gitignored) and replaces the marked eval section in this file. Needs `GEMINI_API_KEY` in `.env.local`; tick after the first real run.
 - T1.10: `copy-vendor.ts` (Tailwind browser, effects.css, latin fonts + generated `fonts.css`), `transform.ts` (Sucrase + import stubbing: react → global destructure, other imports → dashed placeholders, lowercase names → string-joining functions), `srcdoc.ts` (CSP, escaped inline scripts, in-frame runtime with error boundary), `messages.ts` (Zod frame messages), `PreviewFrame.tsx` (sandbox="allow-scripts", source check, 5 s watchdog). 20 tests in `tests/srcdoc.test.ts`. Checked in Chrome through the dev-only `/dev/preview` harness: all 5 fixtures render (navbar needed default props); parent-DOM access, fetch, image beacon, storage, cookies, top navigation, `<script src>`/`<iframe>` and a `</script>` breakout all fail safely; an infinite loop is caught by the watchdog and the parent stays responsive. Tailwind browser build needs no `unsafe-eval` (recorded in spec 05).
+- T1.7/T1.9 verified by the first live eval run (2026-10-28): 10/10 possessions passed without retry, average latency 17.5 s, served by `gemma-4-26b-a4b-it` (the fallback model; see the summary in `tasks/notes.md`).

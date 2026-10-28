@@ -27,7 +27,7 @@ DEV Hacktoberfest **Week 4: Ghost in the Machine** (Oct 26–31, 2026).
 2. **Relevance:** literally a ghost in the machine doing the design work.
 3. **Creativity:** no other Week 4 entry is a design tool (checked Oct 28: 35 entries, mostly haunted terminals, git séances, ofrendas).
 4. **Technical Execution:** safe sandboxed preview of untrusted code, size gate, structured output with validation and retry, contrast check, effects library.
-5. **Partner technology:** DigitalOcean (hosting), Gemma (model), .tech domain (live URL).
+5. **Partner technology:** DigitalOcean (hosting), Gemma (model).
 
 ## Prize categories we enter
 
@@ -36,7 +36,6 @@ DEV Hacktoberfest **Week 4: Ghost in the Machine** (Oct 26–31, 2026).
 | Overall | | $250 + DEV++ |
 | **DigitalOcean** (featured) | App hosted on DigitalOcean App Platform; optional Gemma on a GPU Droplet | $200 |
 | **Gemma** (featured) | Gemma 4 does the possession | $200 |
-| **.tech Domain** (partner) | Live on a free Hacktoberfest .tech domain | $100 |
 | TabPFN (featured, stretch) | Scare-o-meter ranks variants (spec 11) | $200 |
 
 ## Non-goals
@@ -47,7 +46,7 @@ DEV Hacktoberfest **Week 4: Ghost in the Machine** (Oct 26–31, 2026).
 
 ## Success = by the deadline
 
-- Live on DigitalOcean at a .tech domain, usable by judges
+- Live on DigitalOcean, usable by judges
 - Public GitHub repo (new, created this week), Apache 2.0
 - Before/after GIFs + 60–90 s video
 - Published DEV post with the challenge template, tags `#devchallenge #hf26challenge`

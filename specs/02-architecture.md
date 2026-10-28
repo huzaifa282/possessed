@@ -25,7 +25,7 @@ Chat   ── POST /api/possess {mode:"refine"|"ask", history, latest}
 |---|---|---|
 | App + API | Next.js 16 App Router, TypeScript strict | Huzaifa's main stack |
 | Hosting | DigitalOcean App Platform (region BLR1) | DigitalOcean category; simple Git deploys |
-| Domain | Free .tech domain from Hacktoberfest promos | .tech Domain category |
+| Domain | Default `*.ondigitalocean.app` URL (the .tech Domain category is not entered) | Avoids giving card details for a domain |
 | Styling | Tailwind v4 | Speed |
 | Editor | CodeMirror 6 (`@uiw/react-codemirror`, JS + HTML + CSS langs) | Good DX, small |
 | Validation | Zod | API and model output |
