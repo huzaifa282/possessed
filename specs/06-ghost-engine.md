@@ -56,7 +56,7 @@ State machine over chunks: `preamble → whisper → between → code → change
 - Emits `whisper` deltas live.
 - Buffers code until `</code>` (code must be complete before rendering).
 - Tolerates: markdown fences around or inside `<code>`, missing `</effects>`, a missing `lang` attribute (falls back to input language), tags split across chunks.
-- If the stream ends without `<code>` in `possess`/`refine`: validation failure → retry (6.6).
+- If the stream ends without `<code>` in `possess`, or inside an unterminated `<code>` in `possess`/`refine`: validation failure → retry (6.6). A `refine` reply with a whisper and no `<code>` at all is valid ("nothing to change", see 6.2).
 
 ## 6.6 Validation and retry (`validate.ts`)
 
