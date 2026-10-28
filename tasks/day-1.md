@@ -24,3 +24,5 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
   - `scripts/copy-vendor.ts` (React 18 UMD, sucrase, tailwind browser, effects.css, fonts), `srcdoc.ts`, a bare `PreviewFrame.tsx`. AC: `srcdoc.test.ts` passes; HTML and JSX fixtures render; the malicious cases in spec 09 §9.4 can't escape.
 
 ## Notes
+
+- T1.1 (partial): `npm test` (2 pass), `npm run typecheck`, `npm run lint` pass; `npm run dev` serves HTTP 200 on :3000; LICENSE is Apache 2.0. Still open: create public `huzaifa282/possessed` and push (`gh` CLI is not installed; `package-lock.json` has an uncommitted 1-line change).
