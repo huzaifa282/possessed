@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "eval": "tsx scripts/eval-ghost.ts",
+    "model:ping": "tsx --env-file=.env.local scripts/model-ping.ts",
     "postinstall": "tsx scripts/copy-vendor.ts"
   },
   "dependencies": {
