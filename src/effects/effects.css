@@ -1,5 +1,126 @@
 /* ghost-* effects library. Spec: specs/04-effects-and-presets.md §4.1 · Task: T1.6
-   Rules: pure CSS, prefixed ghost-, every animation disabled under prefers-reduced-motion. */
+   Rules: pure CSS, prefixed ghost-, every animation disabled under prefers-reduced-motion.
+   Tunable with custom properties: --ghost-glow, --ghost-gold, --ghost-blood, --ghost-phosphor. */
+
+:root {
+  --ghost-glow: #ffb347;
+  --ghost-gold: #b8923f;
+  --ghost-blood: #8a1c1c;
+  --ghost-phosphor: #6cff7a;
+}
+
+/* ---- fog: slow drifting layers over a container ---- */
+.ghost-fog { position: relative; }
+.ghost-fog::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 70%, rgb(255 255 255 / 0.16), transparent 70%),
+    radial-gradient(ellipse 50% 35% at 75% 30%, rgb(255 255 255 / 0.12), transparent 70%),
+    radial-gradient(ellipse 70% 30% at 50% 100%, rgb(255 255 255 / 0.14), transparent 70%);
+  background-size: 200% 100%;
+  animation: ghost-fog-drift 24s ease-in-out infinite alternate;
+}
+@keyframes ghost-fog-drift {
+  from { background-position: 0% 0; }
+  to { background-position: 100% 0; }
+}
+
+/* ---- flicker: dying bulb ---- */
+.ghost-flicker { animation: ghost-flicker 5s linear infinite; }
+@keyframes ghost-flicker {
+  0%, 18%, 22%, 62%, 66%, 100% { opacity: 1; }
+  20% { opacity: 0.55; }
+  24% { opacity: 0.85; }
+  64% { opacity: 0.4; }
+  65% { opacity: 0.9; }
+}
+
+/* ---- candle: warm pulsing glow ---- */
+.ghost-candle { animation: ghost-candle 3.2s ease-in-out infinite alternate; }
+@keyframes ghost-candle {
+  from { box-shadow: 0 0 10px 1px color-mix(in srgb, var(--ghost-glow) 40%, transparent); text-shadow: 0 0 6px color-mix(in srgb, var(--ghost-glow) 55%, transparent); }
+  to { box-shadow: 0 0 22px 5px color-mix(in srgb, var(--ghost-glow) 65%, transparent); text-shadow: 0 0 12px color-mix(in srgb, var(--ghost-glow) 85%, transparent); }
+}
+
+/* ---- cobwebs: corner SVGs ---- */
+.ghost-cobweb-tl, .ghost-cobweb-tr { position: relative; }
+.ghost-cobweb-tl::after, .ghost-cobweb-tr::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 72px;
+  height: 72px;
+  pointer-events: none;
+  opacity: 0.8;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='%23cfc8b8' stroke-width='1'%3E%3Cpath d='M0 0L64 20M0 0L50 50M0 0L20 64M0 0L64 0M0 0L0 64'/%3E%3Cpath d='M0 14Q10 10 14 0M0 28Q20 22 28 0M0 44Q30 36 44 0M0 60Q40 50 60 0'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.ghost-cobweb-tl::after { left: 0; }
+.ghost-cobweb-tr::after { right: 0; transform: scaleX(-1); }
+
+/* ---- drip: blood-red dripping underline ---- */
+.ghost-drip {
+  display: inline-block;
+  padding-bottom: 14px;
+  background:
+    radial-gradient(circle at 8px 5px, var(--ghost-blood) 3px, transparent 3.5px) 0 100% / 24px 14px repeat-x,
+    linear-gradient(var(--ghost-blood), var(--ghost-blood)) 0 100% / 100% 4px no-repeat;
+}
+
+/* ---- float / shiver: hover motion ---- */
+.ghost-float { transition: transform 0.4s ease; }
+.ghost-float:hover { animation: ghost-float 2.4s ease-in-out infinite; }
+@keyframes ghost-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.ghost-shiver:hover { animation: ghost-shiver 0.3s linear infinite; }
+@keyframes ghost-shiver {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-1px) rotate(-0.4deg); }
+  75% { transform: translateX(1px) rotate(0.4deg); }
+}
+
+/* ---- crt: scanlines, curvature, phosphor glow ---- */
+.ghost-crt {
+  position: relative;
+  border-radius: 14px / 18px;
+  text-shadow: 0 0 5px color-mix(in srgb, var(--ghost-phosphor) 70%, transparent);
+  box-shadow: inset 0 0 60px rgb(0 0 0 / 0.65), 0 0 14px color-mix(in srgb, var(--ghost-phosphor) 25%, transparent);
+  overflow: hidden;
+}
+.ghost-crt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.28) 0 1px, transparent 1px 3px);
+}
+
+/* ---- ornate: Victorian frame ---- */
+.ghost-ornate {
+  border: 5px double var(--ghost-gold);
+  box-shadow: inset 0 0 0 8px transparent, inset 0 0 0 9px color-mix(in srgb, var(--ghost-gold) 70%, transparent);
+  background-image:
+    linear-gradient(var(--ghost-gold), var(--ghost-gold)), linear-gradient(var(--ghost-gold), var(--ghost-gold)),
+    linear-gradient(var(--ghost-gold), var(--ghost-gold)), linear-gradient(var(--ghost-gold), var(--ghost-gold)),
+    linear-gradient(var(--ghost-gold), var(--ghost-gold)), linear-gradient(var(--ghost-gold), var(--ghost-gold)),
+    linear-gradient(var(--ghost-gold), var(--ghost-gold)), linear-gradient(var(--ghost-gold), var(--ghost-gold));
+  background-size: 18px 2px, 2px 18px, 18px 2px, 2px 18px, 18px 2px, 2px 18px, 18px 2px, 2px 18px;
+  background-position: left 14px top 14px, left 14px top 14px, right 14px top 14px, right 14px top 14px,
+    left 14px bottom 14px, left 14px bottom 14px, right 14px bottom 14px, right 14px bottom 14px;
+  background-repeat: no-repeat;
+}
+
+/* ---- reveal: fade in from blur ---- */
+.ghost-reveal { animation: ghost-reveal 1.6s ease-out both; }
+@keyframes ghost-reveal {
+  from { opacity: 0; filter: blur(8px); }
+  to { opacity: 1; filter: blur(0); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   [class*="ghost-"], [class*="ghost-"]::before, [class*="ghost-"]::after { animation: none !important; transition: none !important; }

@@ -12,7 +12,7 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
   - `src/lib/limits/detect.ts`, `gate.ts` with refusal message lists. AC: `gate.test.ts`, `detect.test.ts` pass on all fixtures.
 - [x] **T1.5 · Fixture components** (spec 09 §9.2)
   - Add the positive and negative fixtures to `tests/fixtures/components/`.
-- [ ] **T1.6 · Effects catalogue + 2 presets** (spec 04)
+- [x] **T1.6 · Effects catalogue + 2 presets** (spec 04)
   - `catalog.ts` with all effect descriptions; `effects.css` with at least `ghost-fog`, `ghost-candle`, `ghost-flicker`, `ghost-cobweb-*`, `ghost-crt`; presets Victorian + Terminal. AC: effects render in a plain HTML test page; reduced motion respected.
 - [ ] **T1.7 · Model provider (Gemma via Gemini API)** (spec 07 §7.1)
   - Streaming, thought-part skipping, retries, model switch. AC: a script streams a short Gemma reply.
@@ -30,3 +30,4 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
 - T1.3: schemas already matched spec 02; added `tests/types.test.ts` (request/event/version parsing + limits).
 - T1.5 done before T1.4 because the gate tests need the fixtures. `guideme-sidepanel.html` is a stand-in; swap in the real GuideMe panel before recording the demo. `huge-dashboard.jsx` is 268 lines. Fixtures are excluded from ESLint.
 - T1.4: `detect.ts`, `gate.ts` (3 refusal messages per reason, rule-6 message folded into `not_ui`), `tests/limits.test.ts` (36 tests total pass). `gate()` accepts `unknown` as a language; `<header>` is not mistaken for `<head>`; SQL keywords are matched uppercase only to avoid flagging prose.
+- T1.6: `catalog.ts` describes all 15 effect classes from spec 04; CSS is implemented for 11 (everything except marigold, papel, smoke, glass, which arrive with their presets in T2.8) and the catalogue never offers unimplemented ones to the model (`effectsFor`). Presets: Victorian + Terminal. `docs/effects-demo.html` checked in Chrome (served over HTTP). Reduced motion is covered by a test, not eyeballed. `tests/effects.test.ts` keeps catalogue, CSS and presets consistent.

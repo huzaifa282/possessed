@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ghost-* effects demo</title>
+  <link rel="stylesheet" href="../src/effects/effects.css" />
+  <style>
+    body { margin: 0; padding: 24px; font-family: Georgia, serif; background: #14100d; color: #eee; }
+    h1 { font-size: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .card { padding: 28px 20px; border-radius: 6px; background: #f1e6cf; color: #2a1e14; min-height: 120px; }
+    .card small { display: block; margin-bottom: 8px; font: 12px ui-monospace, monospace; opacity: 0.7; }
+    .dark { background: #0b130b; color: #6cff7a; font-family: ui-monospace, monospace; }
+    button { padding: 8px 16px; border: 0; border-radius: 6px; background: #7a1f2b; color: #fff; }
+  </style>
+</head>
+<body>
+  <h1>ghost-* effects (toggle your OS reduced-motion setting to check the static fallback)</h1>
+  <div class="grid">
+    <div class="card ghost-fog"><small>ghost-fog</small>Fog drifts across this card.</div>
+    <div class="card"><small>ghost-flicker</small><b class="ghost-flicker">Dying bulb heading</b></div>
+    <div class="card"><small>ghost-candle</small><button class="ghost-candle">Light the candle</button></div>
+    <div class="card ghost-cobweb-tl"><small>ghost-cobweb-tl</small>Top-left web.</div>
+    <div class="card ghost-cobweb-tr"><small>ghost-cobweb-tr</small>Top-right web.</div>
+    <div class="card"><small>ghost-drip</small><b class="ghost-drip">Dripping heading</b></div>
+    <div class="card"><small>ghost-float (hover)</small><button class="ghost-float">Levitate</button></div>
+    <div class="card"><small>ghost-shiver (hover)</small><button class="ghost-shiver">Tremble</button></div>
+    <div class="card dark ghost-crt"><small>ghost-crt</small>&gt; SYSTEM ALIVE_</div>
+    <div class="card ghost-ornate"><small>ghost-ornate</small>Victorian frame.</div>
+    <div class="card dark"><small>ghost-reveal</small><b class="ghost-reveal">Fades in from blur</b></div>
+    <div class="card ghost-ornate ghost-cobweb-tl ghost-cobweb-tr ghost-fog"><small>victorian: layered</small>Ornate + webs + fog.</div>
+  </div>
+</body>
+</html>
