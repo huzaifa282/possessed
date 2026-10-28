@@ -26,7 +26,7 @@ Goal: `npm run eval` possesses the sample components with Gemma, and the sandbox
 ## Notes
 
 - T1.1: tests, typecheck, lint pass; dev serves 200 on :3000; LICENSE Apache 2.0; pushed to https://github.com/huzaifa282/possessed (main).
-- T1.2 skipped for now: needs the user to claim promos (claims use up inventory). Come back to it.
+- T1.2 deferred: only one free .tech domain can be claimed, so the project name must be final first. Claim it once the name is chosen, then note it in `decisions/0002-hosting-and-model.md`. The DigitalOcean credit can be claimed separately. Deadline-wise this must happen before the Day 2 deploy (T2.9 or similar).
 - T1.3: schemas already matched spec 02; added `tests/types.test.ts` (request/event/version parsing + limits).
 - T1.5 done before T1.4 because the gate tests need the fixtures. `guideme-sidepanel.html` is a stand-in; swap in the real GuideMe panel before recording the demo. `huge-dashboard.jsx` is 268 lines. Fixtures are excluded from ESLint.
 - T1.4: `detect.ts`, `gate.ts` (3 refusal messages per reason, rule-6 message folded into `not_ui`), `tests/limits.test.ts` (36 tests total pass). `gate()` accepts `unknown` as a language; `<header>` is not mistaken for `<head>`; SQL keywords are matched uppercase only to avoid flagging prose.
