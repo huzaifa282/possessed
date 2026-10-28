@@ -2,7 +2,7 @@
 
 Possessed is a website where you paste the frontend code of **one UI component** and a ghost designer ("Vesper") **possesses** it: it returns spooky-themed code for the same component and shows the result in a **live before/after preview**. You can chat with the ghost to refine it ("less scary", "more Día de los Muertos", "keep my brand colours"). Components that are too big get turned away in character ("This is beyond my ghostly powers…").
 
-Built for the DEV **Hacktoberfest Week 4 challenge "Ghost in the Machine"**. Deadline: **Sat Oct 31, 11:59 PM PDT = Sun Nov 1, 11:59 AM PKT**. Target categories: **DigitalOcean**, **Gemma**, **.tech Domain**; **TabPFN** only as a stretch goal (spec 11).
+Built for the DEV **Hacktoberfest Week 4 challenge "Ghost in the Machine"**. Deadline: **Sat Oct 31, 11:59 PM PDT = Sun Nov 1, 11:59 AM PKT**. Target categories: **DigitalOcean**, **Gemma** (the .tech Domain category was dropped: no card details for a domain); **TabPFN** only as a stretch goal (spec 11).
 
 ## How we work (spec-driven)
 
