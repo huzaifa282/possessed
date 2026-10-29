@@ -29,3 +29,5 @@ interface ModelProvider {
 ## 7.3 Health and footer
 
 `GET /api/health` returns provider, model, ok, last latency. The page footer shows "Possessed by Gemma 4 31B · hosted on DigitalOcean".
+
+`/api/health` answers 503 when `ok` is false so the App Platform health check reflects the real state.

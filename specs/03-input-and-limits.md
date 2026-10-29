@@ -38,6 +38,7 @@ Checks, in order:
 
 - In-memory token bucket per hashed IP (`x-forwarded-for` on App Platform): `RATE_LIMIT_PER_HOUR` possessions/refinements; `ask` messages count half.
 - Over the limit: `refusal` with reason `rate_limited`: "Even ghosts need rest. Return in {minutes} minutes."
+- The server order is body check (64 KB cap) → schema → `gate()` → rate limit → model, so gate refusals neither call the model nor spend allowance.
 - Note: memory resets on redeploy; acceptable for the challenge (ADR 0003).
 
 ## 3.5 Privacy

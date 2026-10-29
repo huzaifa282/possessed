@@ -2,7 +2,7 @@
 
 Goal: the full flow works in the browser and is live on DigitalOcean.
 
-- [ ] **T2.1 · API route `/api/possess` (SSE) + `/api/health`** (spec 06, 07, 03 §3.4)
+- [x] **T2.1 · API route `/api/possess` (SSE) + `/api/health`** (spec 06, 07, 03 §3.4)
   - Gate → rate limit → possess/refine/ask → SSE `GhostEvent`s. AC: curl streams whisper then code; oversized input returns a refusal with no model call.
 - [ ] **T2.2 · Editor** (spec 01 US-1, US-2)
   - CodeMirror, language badge + override, size meter, 3 samples, instant client-side refusal.
@@ -20,3 +20,5 @@ Goal: the full flow works in the browser and is live on DigitalOcean.
   - Día de los Muertos (with the respect guidance), Gothic Cathedral, Jinn's Palace + their signature effects.
 
 ## Notes
+
+- T2.1: `/api/possess` streams `GhostEvent`s as SSE (`src/lib/ghost/sse.ts` has `encodeSse` plus a `parseSse` for the browser client in T2.2/T2.5). Order is body check (64 KB cap, 413) → Zod (400) → gate → rate limit → provider, so refusals cost no model call and no rate-limit allowance. `ratelimit.ts` is a token bucket per hashed IP (ask costs 0.5, epsilon guards float drift so a "retry in N" answer is honoured). `model/runtime.ts` holds the process-wide provider (so the 31B → 26B switch sticks), limiter and last latency. `/api/health` returns 503 when the provider is not ok, so the App Platform check is honest. One metadata-only log line per request (spec 03 §3.5; a test asserts the code is never logged). 12 new tests (`ratelimit`, `api`); 142 pass. Live curl: oversized fixture → immediate `too_big` refusal, pricing card → whisper, code, changes, effects, done. **Watch:** that live run took 111 s on `gemma-4-26b-a4b-it` (eval averaged 17.5 s); the time is inside the model call. Check the 31B-first timeout/fallback behaviour before the T2.7 deploy.
