@@ -3,13 +3,16 @@
 // Task: T1.6 / T2.8
 import type { PresetId } from "@/types";
 import type { Preset } from "./types";
+import { gothic } from "./gothic";
+import { jinn } from "./jinn";
+import { muertos } from "./muertos";
 import { terminal } from "./terminal";
 import { victorian } from "./victorian";
 
 export type { Preset } from "./types";
 
-/** Presets implemented so far. muertos, gothic and jinn arrive in T2.8. */
-export const PRESETS: Partial<Record<PresetId, Preset>> = { victorian, terminal };
+/** All five presets, in the order the picker shows them. */
+export const PRESETS: Partial<Record<PresetId, Preset>> = { victorian, muertos, terminal, gothic, jinn };
 
 export function getPreset(id: PresetId): Preset {
   const p = PRESETS[id];

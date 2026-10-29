@@ -122,6 +122,69 @@
   to { opacity: 1; filter: blur(0); }
 }
 
+/* ---- marigold: ring of cempasúchil petals around the element ---- */
+.ghost-marigold { position: relative; }
+.ghost-marigold::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  padding: 9px;
+  pointer-events: none;
+  border-radius: inherit;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cg fill='%23ff9a1f'%3E%3Ccircle cx='9' cy='4' r='3'/%3E%3Ccircle cx='9' cy='14' r='3'/%3E%3Ccircle cx='4' cy='9' r='3'/%3E%3Ccircle cx='14' cy='9' r='3'/%3E%3Ccircle cx='5.5' cy='5.5' r='2.6'/%3E%3Ccircle cx='12.5' cy='5.5' r='2.6'/%3E%3Ccircle cx='5.5' cy='12.5' r='2.6'/%3E%3Ccircle cx='12.5' cy='12.5' r='2.6'/%3E%3C/g%3E%3Ccircle cx='9' cy='9' r='3' fill='%23c25a00'/%3E%3C/svg%3E") 0 0 / 18px 18px;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+/* ---- papel picado: cut-paper flags strung along the top ---- */
+.ghost-papel { position: relative; padding-top: 2.5rem; }
+.ghost-papel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 90 30'%3E%3Cpath d='M0 4H90' stroke='%23e9dcc3' fill='none'/%3E%3Cpath fill-rule='evenodd' fill='%23e6007e' d='M3 6H27V26L21 22L15 26L9 22L3 26ZM13 11h4v4h-4z'/%3E%3Cpath fill-rule='evenodd' fill='%2300b5b0' d='M33 6H57V26L51 22L45 26L39 22L33 26ZM43 11h4v4h-4z'/%3E%3Cpath fill-rule='evenodd' fill='%23ff9a1f' d='M63 6H87V26L81 22L75 26L69 22L63 26ZM73 11h4v4h-4z'/%3E%3C/svg%3E") repeat-x 0 0 / 90px 30px;
+}
+
+/* ---- smoke: wisps rising from the bottom edge ---- */
+.ghost-smoke { position: relative; overflow: hidden; }
+.ghost-smoke::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10%;
+  height: 70%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 18% 40% at 20% 100%, rgb(255 255 255 / 0.18), transparent 70%),
+    radial-gradient(ellipse 14% 50% at 50% 100%, rgb(255 255 255 / 0.14), transparent 70%),
+    radial-gradient(ellipse 20% 45% at 80% 100%, rgb(255 255 255 / 0.16), transparent 70%);
+  filter: blur(6px);
+  animation: ghost-smoke-rise 7s ease-in-out infinite;
+}
+@keyframes ghost-smoke-rise {
+  0% { transform: translateY(12%) scaleY(0.9); opacity: 0.2; }
+  50% { opacity: 0.8; }
+  100% { transform: translateY(-18%) scaleY(1.2); opacity: 0; }
+}
+
+/* ---- glass: stained-glass panes with lead lines. Keep text on a solid surface inside, never directly on it ---- */
+.ghost-glass {
+  background-color: #1b1626;
+  background-image:
+    repeating-linear-gradient(90deg, rgb(8 8 10 / 0.9) 0 3px, transparent 3px 56px),
+    repeating-linear-gradient(0deg, rgb(8 8 10 / 0.9) 0 3px, transparent 3px 56px),
+    linear-gradient(135deg, rgb(155 28 49 / 0.75) 0 25%, transparent 25% 50%, rgb(47 75 143 / 0.75) 50% 75%, transparent 75%),
+    linear-gradient(45deg, rgb(212 169 74 / 0.7) 0 25%, transparent 25% 50%, rgb(20 110 90 / 0.7) 50% 75%, transparent 75%);
+  background-size: 56px 56px;
+  box-shadow: inset 0 0 40px rgb(0 0 0 / 0.6);
+}
+
 @media (prefers-reduced-motion: reduce) {
   [class*="ghost-"], [class*="ghost-"]::before, [class*="ghost-"]::after { animation: none !important; transition: none !important; }
 }

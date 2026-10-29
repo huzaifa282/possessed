@@ -94,7 +94,7 @@ export const EFFECTS: readonly Effect[] = [
     goodFor: ["container"],
     presets: ["muertos"],
     intensityMin: "haunt",
-    implemented: false,
+    implemented: true,
   },
   {
     name: "ghost-papel",
@@ -102,7 +102,7 @@ export const EFFECTS: readonly Effect[] = [
     goodFor: ["container"],
     presets: ["muertos"],
     intensityMin: "haunt",
-    implemented: false,
+    implemented: true,
   },
   {
     name: "ghost-ornate",
@@ -118,7 +118,7 @@ export const EFFECTS: readonly Effect[] = [
     goodFor: ["container"],
     presets: ["jinn"],
     intensityMin: "haunt",
-    implemented: false,
+    implemented: true,
   },
   {
     name: "ghost-glass",
@@ -126,7 +126,7 @@ export const EFFECTS: readonly Effect[] = [
     goodFor: ["container"],
     presets: ["gothic"],
     intensityMin: "haunt",
-    implemented: false,
+    implemented: true,
   },
   {
     name: "ghost-reveal",

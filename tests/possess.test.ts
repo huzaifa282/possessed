@@ -116,9 +116,9 @@ describe("possess", () => {
     expect((await collect(req(), bad.provider)).at(-1)).toMatchObject({ type: "error", retryable: false });
   });
 
-  it("returns an error for a preset that is not built yet", async () => {
+  it("returns an error for a preset that is not in the registry", async () => {
     const { provider, calls } = fake([reply(JSX)]);
-    const events = await collect(req({ preset: "jinn" }), provider);
+    const events = await collect({ ...req(), preset: "nope" as never }, provider);
     expect(events.at(-1)).toMatchObject({ type: "error", retryable: false });
     expect(calls).toHaveLength(0);
   });

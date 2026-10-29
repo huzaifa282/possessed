@@ -30,6 +30,17 @@ describe("effects catalogue", () => {
 });
 
 describe("presets", () => {
+  it("registers all five presets in picker order", () => {
+    expect(Object.keys(PRESETS)).toEqual(["victorian", "muertos", "terminal", "gothic", "jinn"]);
+  });
+
+  it("carries the Día de los Muertos respect guidance", () => {
+    const m = PRESETS.muertos!;
+    expect(m.donts.join(" ")).toMatch(/blood/i);
+    expect(m.donts.join(" ")).toMatch(/stereotypes/i);
+    expect(m.dos.join(" ")).toMatch(/memory and family/i);
+  });
+
   const counts: Record<Intensity, [number, number]> = { whisper: [1, 2], haunt: [2, 4], possession: [3, 6] };
 
   for (const preset of Object.values(PRESETS)) {
