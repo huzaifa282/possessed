@@ -14,7 +14,7 @@ A ghost designer who has haunted design studios since the days of letterpress. D
 | `refine` | latest possessed code + user message + last 6 chat turns | whisper + new code + changes + effects |
 | `ask` | latest code + user message + last 6 chat turns | whisper only (no code) |
 
-The client picks `refine` vs `ask` with a simple rule (question mark and no imperative verb = ask); the model may still return no `<code>` for `refine` if nothing should change, and the UI handles that.
+The client picks `refine` vs `ask` with a simple rule (question mark and no imperative verb = ask; a question that opens with a question word such as why/what/how is an ask even if it contains a verb like "change", and polite requests such as "can you…" or "how about…" are refinements; see `chooseMode` in `lib/ghost/session.ts`); the model may still return no `<code>` for `refine` if nothing should change, and the UI handles that.
 
 ## 6.3 Output contract
 

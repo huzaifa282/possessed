@@ -50,12 +50,13 @@ possessed/
 ├── public/vendor/                (generated) preview runtime files
 ├── src/
 │   ├── app/
-│   │   ├── page.tsx              the haunted studio (single page)
+│   │   ├── page.tsx              renders <Studio/>
 │   │   ├── layout.tsx  globals.css
 │   │   └── api/
 │   │       ├── possess/route.ts  POST → SSE (possess | refine | ask)
 │   │       └── health/route.ts   GET model status
 │   ├── components/
+│   │   ├── Studio.tsx                  the haunted studio: state, API calls, three-column layout
 │   │   ├── editor/CodeEditor.tsx       CodeMirror, language badge, size meter, samples
 │   │   ├── editor/PresetPicker.tsx     presets + intensity + "possess the words" toggle
 │   │   ├── preview/PreviewFrame.tsx    sandboxed iframe, postMessage bridge
@@ -66,18 +67,25 @@ possessed/
 │   ├── effects/
 │   │   ├── effects.css           all ghost-* effect classes (spec 04)
 │   │   ├── catalog.ts            effect names, descriptions, which presets use them
+│   │   ├── extract.ts            only the used effects' CSS + font install hints (Effects CSS tab)
 │   │   └── presets/*.ts          palettes, fonts, default effects per preset
 │   ├── lib/
 │   │   ├── limits/gate.ts        size gate + page/non-UI detection + refusal messages (shared client/server)
 │   │   ├── limits/detect.ts      language detection (html vs jsx/tsx)
 │   │   ├── limits/ratelimit.ts   per-IP token bucket (in memory)
+│   │   ├── limits/analyze.ts     client view of the gate: effective language, verdict, size-meter level
 │   │   ├── ghost/prompt.ts       system + user prompt builders
 │   │   ├── ghost/parse.ts        streaming parser for <whisper>/<code>/<changes>
 │   │   ├── ghost/validate.ts     sucrase transform check / HTML parse check, effect names check
 │   │   ├── ghost/possess.ts      orchestration: gate → prompt → stream → validate → retry
+│   │   ├── ghost/sse.ts          SSE framing of GhostEvents (encode on the server, parse in the browser)
+│   │   ├── ghost/client.ts       browser fetch of /api/possess → GhostEvents
+│   │   ├── ghost/session.ts      pure reducer: chat, versions, event stream; chooseMode (refine vs ask)
+│   │   ├── samples.ts            the three built-in samples (kept equal to the fixtures by a test)
 │   │   ├── model/provider.ts     interface + factory
 │   │   ├── model/gemini-gemma.ts Gemini API streaming, retries, model switch
 │   │   ├── model/openai-compat.ts Gemma on a DO GPU Droplet (vLLM / Ollama)
+│   │   ├── model/runtime.ts      server singletons: provider, rate limiter, last latency
 │   │   ├── preview/srcdoc.ts     builds the iframe document (CSP, runtime, effects, user code)
 │   │   └── a11y/contrast.ts      WCAG contrast math (used inside the iframe script)
 │   └── types/index.ts            Zod schemas: PossessRequest, GhostEvent, Preset, Version
