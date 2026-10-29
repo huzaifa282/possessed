@@ -8,8 +8,10 @@
 4. Region: **BLR1** (closest to Pakistan) or FRA1.
 5. Plan: smallest Basic instance (1 vCPU / 1 GB) is enough: the model runs elsewhere.
 6. Env vars (encrypted): `GEMINI_API_KEY`, `MODEL_PROVIDER=gemini-gemma`, `GEMMA_MODELS`, `RATE_LIMIT_PER_HOUR=20`.
-7. Health check path: `/api/health`.
+7. Health check path: `/api/health?live=1` (liveness only; plain `/api/health` also tests the model and is for humans).
 8. Credits: check `hacktoberfest.com/my/promos` and DigitalOcean's new-account credit before creating paid resources.
+
+The same settings are in `.do/app.yaml` (no secrets). Create the app from it with `doctl apps create --spec .do/app.yaml`, then set `GEMINI_API_KEY` in the dashboard (Settings → App-Level Environment Variables, encrypted).
 
 ## 8.2 Domain (dropped)
 

@@ -111,8 +111,18 @@ describe("POST /api/possess", () => {
 });
 
 describe("GET /api/health", () => {
+  const get = (qs = "") => GET(new Request(`http://test/api/health${qs}`));
+
+  it("answers liveness without touching the model", async () => {
+    const health = vi.spyOn(provider, "health");
+    const res = await get("?live=1");
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ ok: true });
+    expect(health).not.toHaveBeenCalled();
+  });
+
   it("reports provider, model and last latency", async () => {
-    const res = await GET();
+    const res = await get();
     expect(res.status).toBe(200);
     expect(await res.json()).toMatchObject({ provider: "fake", model: "model", ok: true });
   });

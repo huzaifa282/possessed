@@ -5,7 +5,9 @@ import { getProvider, lastLatency } from "@/lib/model/runtime";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: Request) {
+  // Liveness only (used by the App Platform probe every few seconds): never calls the model, so an upstream blip cannot get the app restarted.
+  if (new URL(request.url).searchParams.has("live")) return Response.json({ ok: true });
   try {
     const provider = getProvider();
     const { ok, detail } = await provider.health();
