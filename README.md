@@ -9,6 +9,8 @@ Built for the DEV Hacktoberfest Week 4 challenge, **"Ghost in the Machine"**. Po
 ![A pricing card being possessed: the before/after slider sweeps from the plain card to a Haunted Victorian one](docs/assets/hero.gif)
 <!-- TODO(T2.7): live link -->
 
+![The same pricing card in all five presets](docs/assets/presets.png)
+
 ## How it works
 
 ```

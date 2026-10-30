@@ -5,7 +5,7 @@ tags: devchallenge, hf26challenge, webdev, opensource
 
 <!--
 DRAFT 1. Open items before publishing (spec 10 §10.4):
-  - [ ] hero GIF (T3.6) and the other assets
+  - [x] hero GIF, presets grid, chat GIF, refusal screenshot, cover (docs/assets). Images use relative paths: upload them to DEV and swap the links when publishing. Still missing: the 60-90 s video.
   - [ ] live link (T2.7, deploy not done yet)
   - [ ] tokens per possession: not measured yet, do not guess
   - [ ] live-site latency: eval numbers below are from the eval run, not the deployed site
@@ -18,7 +18,7 @@ DRAFT 1. Open items before publishing (spec 10 §10.4):
 Every October someone asks for a spooky version of a website, and it eats a week.
 So I hired a ghost.
 
-<!-- hero.gif: before/after slider dragged across a possessed pricing card -->
+![A pricing card being possessed: the slider sweeps from the plain card to a Haunted Victorian one](assets/hero.gif)
 
 ## What I Built
 
@@ -26,13 +26,13 @@ Possessed is a website where you paste the code of **one UI component** and a gh
 
 There are five presets: Haunted Victorian, Día de los Muertos, Possessed Terminal, Gothic Cathedral and Jinn's Palace.
 
-<!-- presets.png: one component in all five presets -->
+![The same pricing card in all five presets](assets/presets.png)
 
 The component stays the same component. Same name, props, structure and meaning of the text; only the styling changes (unless you switch on "possess the words too").
 
 Hand it a whole page and it says *"This is beyond my ghostly powers."* That refusal is part of the personality, and it is also cost control: oversized or non-UI input is turned away before any model call, so it costs nothing.
 
-<!-- refusal.png -->
+![Vesper refusing a whole page: "A whole house? I only haunt one room at a time."](assets/refusal.jpg)
 
 ## Demo
 
@@ -67,6 +67,8 @@ paste code -> size gate -> Gemma 4 -> streaming parser -> validation (retry once
 | Average latency per possession | 21.8 s |
 
 *(These are eval numbers from my machine, not measurements of the deployed site.)*
+
+![Refining in chat: "less scary, a bit warmer please" turns the button gold](assets/chat.gif)
 
 **Readability.** After each possession the preview checks text against WCAG AA and, if the spirits made something hard to read, offers a "Fix contrast" button that asks Vesper to repair exactly those texts.
 

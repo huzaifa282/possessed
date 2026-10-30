@@ -13,10 +13,10 @@
 ## 10.2 Assets (`docs/assets/`)
 
 - [x] `hero.gif`: before/after slider dragged across a possessed pricing card (8–12 s, ≤ 8 MB)
-- [ ] `presets.png`: one component in all 5 presets (grid)
-- [ ] `chat.gif`: "less scary" refinement in the chat
+- [x] `presets.png`: one component in all 5 presets (grid)
+- [x] `chat.gif`: "less scary" refinement in the chat
 - [x] `refusal.jpg`: the ghost refusing a whole page (JPEG, screenshot tool output)
-- [ ] `cover.png`: 1000 × 420 DEV cover
+- [x] `cover.png`: 1000 × 420 DEV cover
 - [ ] 60–90 s video (unlisted YouTube): paste → possess → slider → refine → copy code → refusal
 
 ## 10.3 Post outline (challenge template)
