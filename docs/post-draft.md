@@ -13,7 +13,7 @@ DRAFT 1. Open items before publishing (spec 10 §10.4):
   - [ ] DEV AI-disclosure setting on the post
 -->
 
-*This is a submission for the [Hacktoberfest Week 4 Challenge: Ghost in the Machine](https://dev.to/challenges).*
+*This is a submission for the Hacktoberfest Week 4 Challenge: Ghost in the Machine (TODO: use the exact challenge template line and link from the challenge page).*
 
 Every October someone asks for a spooky version of a website, and it eats a week.
 So I hired a ghost.
