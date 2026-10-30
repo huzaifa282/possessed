@@ -1,6 +1,7 @@
 // Builds the sandboxed preview document: CSP, vendor runtime, effects.css, fonts, user code (HTML or transformed JSX), postMessage bridge, contrast script.
 // Spec: specs/05-preview-sandbox.md
 // Task: T1.10
+import { contrastFrameScript } from "@/lib/a11y/contrast";
 import type { Language } from "@/types";
 import { transformJsx } from "./transform";
 
@@ -76,6 +77,8 @@ const FRAME_RUNTIME = `
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         post({ type: "ready", height: height() });
+        // Fonts and effects settle shortly after first paint; measure once they have.
+        setTimeout(function () { if (window.__ghostMeasure) window.__ghostMeasure(); }, 700);
         if (window.ResizeObserver) new ResizeObserver(function () { post({ type: "resize", height: height() }); }).observe(document.body);
       });
     });
@@ -126,6 +129,7 @@ export function buildSrcdoc({ code, language, appOrigin }: SrcdocInput): SrcdocR
       `<script src="${origin}/vendor/react.production.min.js"></script>`,
       `<script src="${origin}/vendor/react-dom.production.min.js"></script>`,
       `<script>${escapeForScript(FRAME_RUNTIME)}</script>`,
+      `<script>${escapeForScript(contrastFrameScript())}</script>`,
       `<script>${escapeForScript(wrapped)}</script>`,
       `<script>window.__ghostMount();</script>`,
     ].join("\n");

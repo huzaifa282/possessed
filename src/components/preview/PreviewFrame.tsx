@@ -5,6 +5,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import type { ContrastReport } from "@/lib/a11y/contrast";
 import { FrameMessage, MAX_FRAME_HEIGHT, MIN_FRAME_HEIGHT, WATCHDOG_MS } from "@/lib/preview/messages";
 import { buildSrcdoc, SANDBOX, type SrcdocResult } from "@/lib/preview/srcdoc";
 import type { Language } from "@/types";
@@ -16,6 +17,8 @@ export interface PreviewFrameProps {
   className?: string;
   /** Receives placeholder notices (e.g. stubbed imports) and runtime errors from the frame. */
   onNotice?: (notice: string) => void;
+  /** Receives the contrast report once the frame has settled (spec 05 §5.5). */
+  onContrast?: (report: ContrastReport) => void;
 }
 
 type Built = SrcdocResult & { error: string | null };
@@ -51,7 +54,7 @@ export default function PreviewFrame(props: PreviewFrameProps) {
   return <Host key={`${attempt}:${hash(built.html || built.error || "")}`} {...props} built={built} onRetry={() => setAttempt((a) => a + 1)} />;
 }
 
-function Host({ built, title = "Component preview", className, onNotice, onRetry }: PreviewFrameProps & { built: Built; onRetry: () => void }) {
+function Host({ built, title = "Component preview", className, onNotice, onContrast, onRetry }: PreviewFrameProps & { built: Built; onRetry: () => void }) {
   const frame = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(MIN_FRAME_HEIGHT);
   const [status, setStatus] = useState<Status>("loading");
@@ -69,6 +72,10 @@ function Host({ built, title = "Component preview", className, onNotice, onRetry
       const parsed = FrameMessage.safeParse(event.data);
       if (!parsed.success) return;
       const msg = parsed.data;
+      if (msg.type === "contrast") {
+        onContrast?.({ failures: msg.failures, unmeasured: msg.unmeasured });
+        return;
+      }
       if (msg.type === "error") {
         setRuntimeError(msg.message);
         onNotice?.(msg.message);
@@ -79,7 +86,7 @@ function Host({ built, title = "Component preview", className, onNotice, onRetry
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, [onNotice]);
+  }, [onNotice, onContrast]);
 
   // Watchdog: a frame that never reports ready is stuck (e.g. an infinite loop) and is removed.
   useEffect(() => {

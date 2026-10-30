@@ -6,6 +6,7 @@
 
 import { useRef, useState, type CSSProperties, type KeyboardEvent, type PointerEvent } from "react";
 import type { Language } from "@/types";
+import type { ContrastReport } from "@/lib/a11y/contrast";
 import PreviewFrame from "./PreviewFrame";
 
 export interface Side {
@@ -17,6 +18,8 @@ interface Props {
   before: Side | null;
   after: Side | null;
   onNotice?: (notice: string) => void;
+  /** Contrast report for the possessed (after) frame only. */
+  onContrast?: (report: ContrastReport) => void;
 }
 
 type Mode = "slider" | "side";
@@ -35,7 +38,7 @@ const BACKGROUNDS: Record<Background, CSSProperties> = {
 const toggle = (active: boolean) =>
   `rounded px-3 py-1 text-sm ${active ? "bg-glow text-room" : "bg-wood-dark hover:bg-wood-light"}`;
 
-export default function BeforeAfter({ before, after, onNotice }: Props) {
+export default function BeforeAfter({ before, after, onNotice, onContrast }: Props) {
   const [mode, setMode] = useState<Mode>("slider");
   const [bg, setBg] = useState<Background>("light");
   const [position, setPosition] = useState(50); // % of the width where "after" starts
@@ -64,8 +67,8 @@ export default function BeforeAfter({ before, after, onNotice }: Props) {
     e.preventDefault();
   };
 
-  const frame = (side: Side | null, title: string) =>
-    side ? <PreviewFrame code={side.code} language={side.language} title={title} onNotice={onNotice} /> : null;
+  const frame = (side: Side | null, title: string, report?: (r: ContrastReport) => void) =>
+    side ? <PreviewFrame code={side.code} language={side.language} title={title} onNotice={onNotice} onContrast={report} /> : null;
 
   const waiting = (
     <p className="p-6 text-center text-sm italic text-black/60 mix-blend-normal">The ghost has not possessed this yet.</p>
@@ -103,7 +106,7 @@ export default function BeforeAfter({ before, after, onNotice }: Props) {
           {after && (
             <div className="pointer-events-none [grid-area:1/1]" style={{ clipPath: `inset(0 0 0 ${position}%)` }}>
               <div className="min-h-full" style={BACKGROUNDS[bg]}>
-                {frame(after, "Possessed component")}
+                {frame(after, "Possessed component", onContrast)}
               </div>
             </div>
           )}
@@ -147,7 +150,7 @@ export default function BeforeAfter({ before, after, onNotice }: Props) {
             <figure className={`${narrow === "after" ? "block" : "hidden"} m-0 md:block`}>
               <figcaption className="mb-1 text-xs text-ink/70">After</figcaption>
               <div className="overflow-hidden rounded border border-wood-light" style={BACKGROUNDS[bg]}>
-                {after ? frame(after, "Possessed component") : waiting}
+                {after ? frame(after, "Possessed component", onContrast) : waiting}
               </div>
             </figure>
           </div>

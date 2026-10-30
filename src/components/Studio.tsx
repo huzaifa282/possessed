@@ -10,6 +10,7 @@ import CodeEditor from "@/components/editor/CodeEditor";
 import PresetPicker from "@/components/editor/PresetPicker";
 import BeforeAfter from "@/components/preview/BeforeAfter";
 import OutputTabs from "@/components/preview/OutputTabs";
+import { fixContrastMessage, type ContrastFailure } from "@/lib/a11y/contrast";
 import { streamGhost } from "@/lib/ghost/client";
 import { chooseMode, historyOf, initialSession, reducer, selectedVersion } from "@/lib/ghost/session";
 import { analyze } from "@/lib/limits/analyze";
@@ -24,6 +25,7 @@ export default function Studio() {
   const [session, dispatch] = useReducer(reducer, initialSession);
   const [notices, setNotices] = useState<string[]>([]);
   const [chatOpen, setChatOpen] = useState(true);
+  const [contrast, setContrast] = useState<{ versionId: number; failures: ContrastFailure[] } | null>(null);
   const abort = useRef<AbortController | null>(null);
 
   const analysis = analyze(code, language);
@@ -39,6 +41,15 @@ export default function Studio() {
       ? { code: deferredCode, language: live.language }
       : null;
   const after = current && current.id !== 0 ? { code: current.code, language: current.language } : null;
+
+  const afterId = current?.id;
+  const onContrast = useCallback(
+    (r: { failures: ContrastFailure[] }) => {
+      if (afterId !== undefined) setContrast({ versionId: afterId, failures: r.failures });
+    },
+    [afterId],
+  );
+  const hardToRead = contrast && contrast.versionId === afterId ? contrast.failures : [];
 
   const addNotice = useCallback((n: string) => setNotices((prev) => (prev.includes(n) ? prev : [...prev, n])), []);
 
@@ -121,7 +132,22 @@ export default function Studio() {
         </div>
 
         <div className="flex min-w-0 flex-col gap-4">
-          <BeforeAfter before={before} after={after} onNotice={addNotice} />
+          <BeforeAfter before={before} after={after} onNotice={addNotice} onContrast={onContrast} />
+          {after && hardToRead.length > 0 && (
+            <div role="status" className="flex flex-wrap items-center gap-3 rounded border border-glow/50 px-3 py-2 text-sm">
+              <span>
+                The spirits made {hardToRead.length} {hardToRead.length === 1 ? "text" : "texts"} hard to read.
+              </span>
+              <button
+                type="button"
+                disabled={session.busy}
+                onClick={() => send(fixContrastMessage(hardToRead))}
+                className="rounded border border-glow px-3 py-1 text-glow disabled:opacity-40"
+              >
+                Fix contrast
+              </button>
+            </div>
+          )}
           {notices.length > 0 && (
             <ul aria-label="Preview notices" className="space-y-1 text-xs italic text-ink/70">
               {notices.map((n) => (
