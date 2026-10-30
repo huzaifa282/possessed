@@ -74,14 +74,18 @@ const FRAME_RUNTIME = `
 
   function height() { return Math.ceil(document.documentElement.scrollHeight); }
   window.__ghostReady = function () {
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        post({ type: "ready", height: height() });
-        // Fonts and effects settle shortly after first paint; measure once they have.
-        setTimeout(function () { if (window.__ghostMeasure) window.__ghostMeasure(); }, 700);
-        if (window.ResizeObserver) new ResizeObserver(function () { post({ type: "resize", height: height() }); }).observe(document.body);
-      });
-    });
+    var sent = false;
+    function go() {
+      if (sent) return;
+      sent = true;
+      post({ type: "ready", height: height() });
+      // Fonts and effects settle shortly after first paint; measure once they have.
+      setTimeout(function () { if (window.__ghostMeasure) window.__ghostMeasure(); }, 700);
+      if (window.ResizeObserver) new ResizeObserver(function () { post({ type: "resize", height: height() }); }).observe(document.body);
+    }
+    requestAnimationFrame(function () { requestAnimationFrame(go); });
+    // Browsers do not run animation frames in a frame that is clipped away (the slider at either end), so a timer must be able to report ready too.
+    setTimeout(go, 150);
   };
 
   window.__ghostMount = function () {

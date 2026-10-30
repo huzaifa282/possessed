@@ -157,3 +157,13 @@ describe("frame messages", () => {
     expect(FrameMessage.safeParse({ type: "error", message: "x".repeat(501) }).success).toBe(false);
   });
 });
+
+describe("ready signal", () => {
+  it("does not depend on animation frames alone (a frame clipped away by the slider never gets one)", () => {
+    for (const [code, lang] of [["<p>hello world, this is long enough</p>", "html"], ["export default function A(){return <p>hi</p>}", "jsx"]] as const) {
+      const { html } = build(code, lang);
+      expect(html).toMatch(/setTimeout\(go,\s*\d+\)/);
+      expect(html).toContain("requestAnimationFrame");
+    }
+  });
+});
