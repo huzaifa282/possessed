@@ -92,7 +92,7 @@ async function main() {
 
   writeSummary(rows, intensity, provider.id);
   const clean = rows.filter((r) => r.outcome === "pass").length;
-  console.log(`\n${clean}/${rows.length} passed without retry (${Math.round((clean / rows.length) * 100)}%). Summary written to tasks/notes.md`);
+  console.log(`\n${clean}/${rows.length} passed without retry (${Math.round((clean / rows.length) * 100)}%). `);
 }
 
 function writeSummary(rows: Row[], intensity: string, model: string) {
@@ -114,6 +114,15 @@ function writeSummary(rows: Row[], intensity: string, model: string) {
     END,
   ].join("\n");
 
+  // A filtered run (--only / --presets) must not replace the full-run table in tasks/notes.md.
+  if (args.only || args.presets) {
+    const partial = path.join(OUT, "summary-partial.md");
+    writeFileSync(partial, `${lines}
+`);
+    console.log(`Filtered run: summary written to ${path.relative(ROOT, partial)}, tasks/notes.md left as it was.`);
+    return;
+  }
+
   const existing = (() => {
     try {
       return readFileSync(NOTES, "utf8");
@@ -125,6 +134,7 @@ function writeSummary(rows: Row[], intensity: string, model: string) {
   const b = existing.indexOf(END);
   const next = a !== -1 && b !== -1 ? existing.slice(0, a) + lines + existing.slice(b + END.length) : `${existing.trimEnd()}\n\n${lines}\n`;
   writeFileSync(NOTES, next);
+  console.log("Summary written to tasks/notes.md");
 }
 
 main().catch((e) => {
