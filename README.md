@@ -6,7 +6,7 @@ Possessed returns spooky-themed code for your component and shows a live before/
 
 Built for the DEV Hacktoberfest Week 4 challenge, **"Ghost in the Machine"**. Powered by Gemma 4 (open weights).
 
-<!-- TODO(T3.6): hero GIF, docs/assets/hero.gif -->
+![A pricing card being possessed: the before/after slider sweeps from the plain card to a Haunted Victorian one](docs/assets/hero.gif)
 <!-- TODO(T2.7): live link -->
 
 ## How it works
