@@ -15,6 +15,7 @@ Goal: the full flow works in the browser and is live on DigitalOcean.
 - [x] **T2.6 · Ghost avatar + page layout** (spec 01 NFR-6)
   - Haunted studio layout (editor | preview | chat), animated ghost states (idle, thinking, speaking, refusing), mobile stacking.
 - [ ] **T2.7 · Deploy to DigitalOcean App Platform** (spec 08 §8.1, §8.4)
+  - **Remaining (owner is deploying):** create the app, set `GEMINI_API_KEY` as an encrypted env var, then run the live-origin checks. Check first that the build installs devDependencies (`postinstall` runs `tsx`, see the backlog).
   - Live URL, env vars set, production checks ticked.
 - [x] **T2.8 · Remaining presets** (spec 04)
   - Día de los Muertos (with the respect guidance), Gothic Cathedral, Jinn's Palace + their signature effects.

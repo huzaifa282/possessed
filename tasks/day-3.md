@@ -7,9 +7,12 @@ Goal: it looks excellent, numbers are measured, assets are captured, the post is
 - [x] **T3.2 · Contrast report + "Fix contrast"** (spec 05 §5.5, spec 01 US-5) · P1
 - [x] **T3.3 · .tech domain live** (spec 08 §8.2): dropped, see ADR 0002
 - [ ] **T3.4 · Manual checklist on the live site** (spec 09 §9.4)
+  - **Remaining (needs the deployed origin):** the live-origin checks, rate limit behind the proxy, HTTPS. **Also not yet checked anywhere:** reduced motion, mobile layout, malicious input and question-gets-an-answer in a browser this session. Done locally: see the notes below.
 - [x] **T3.5 · Scare-o-meter** (spec 11): dropped by the cut rule, see ADR 0004
 - [ ] **T3.6 · Capture assets** (spec 10 §10.2)
+  - **Remaining:** the 60–90 s video (needs a person to record and upload it, best against the live URL). Optional polish: hide the Before/After badges and slider handle in `presets.png`.
 - [ ] **T3.7 · README** (hero GIF, live link, how it works, safety, limits, license)
+  - **Remaining:** the live link (everything else is written).
 - [x] **T3.8 · Post first draft in `docs/post-draft.md`** (spec 10 §10.3)
 
 ## Notes
