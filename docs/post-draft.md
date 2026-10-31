@@ -19,7 +19,7 @@ DRAFT 1. Open items before publishing (spec 10 §10.4):
 Every October someone asks for a spooky version of a website, and it eats a week.
 So I hired a ghost.
 
-![A pricing card being possessed: the slider sweeps from the plain card to a Haunted Victorian one](assets/hero.gif)
+![A pricing card being possessed: the slider sweeps from the plain card to a Haunted Victorian one](https://raw.githubusercontent.com/huzaifa282/possessed/main/docs/assets/hero.gif)
 
 ## What I Built
 
@@ -27,13 +27,13 @@ Possessed is a website where you paste the code of **one UI component** and a gh
 
 There are five presets: Haunted Victorian, Día de los Muertos, Possessed Terminal, Gothic Cathedral and Jinn's Palace.
 
-![The same pricing card in all five presets](assets/presets.png)
+![The same pricing card in all five presets](https://raw.githubusercontent.com/huzaifa282/possessed/main/docs/assets/presets.png)
 
 The component stays the same component. Same name, props, structure and meaning of the text; only the styling changes (unless you switch on "possess the words too").
 
 Hand it a whole page and it says *"This is beyond my ghostly powers."* That refusal is part of the personality, and it is also cost control: oversized or non-UI input is turned away before any model call, so it costs nothing.
 
-![Vesper refusing a whole page: "A whole house? I only haunt one room at a time."](assets/refusal.jpg)
+![Vesper refusing a whole page: "A whole house? I only haunt one room at a time."](https://raw.githubusercontent.com/huzaifa282/possessed/main/docs/assets/refusal.jpg)
 
 ## Demo
 
@@ -70,7 +70,7 @@ paste code -> size gate -> Gemma 4 -> streaming parser -> validation (retry once
 
 *(These are eval numbers from my machine, not measurements of the deployed site.)*
 
-![Refining in chat: "less scary, a bit warmer please" turns the button gold](assets/chat.gif)
+![Refining in chat: "less scary, a bit warmer please" turns the button gold](https://raw.githubusercontent.com/huzaifa282/possessed/main/docs/assets/chat.gif)
 
 **What the eval could not catch.** Validation checks the code, not the picture. My eval said 92% while the live preview could still show "The spirit froze". The cause turned up while I was capturing screenshots: if the slider was dragged to the far right, the possessed frame was clipped away completely, and browsers do not run `requestAnimationFrame` in a frame nobody can see. The frame waited on an animation frame to say "ready", never got one, and my five-second watchdog correctly declared it frozen. The fix was one line (also report ready from a timer) and a regression test, and it is a good example of why the watchdog existed in the first place.
 
