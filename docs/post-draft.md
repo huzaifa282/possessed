@@ -11,6 +11,7 @@ DRAFT 1. Open items before publishing (spec 10 §10.4):
   - [ ] live-site latency: eval numbers below are from the eval run, not the deployed site
   - [ ] the hook below follows spec 10 ("agency"); rewrite it if that is not your real story
   - [ ] DEV AI-disclosure setting on the post
+  - [ ] check the "What the eval could not catch" section still reads true after any later fixes (it describes the clipped-frame bug and the duplicate `style` attribute; the second is NOT fixed, see tasks/backlog.md)
 -->
 
 *This is a submission for the Hacktoberfest Week 4 Challenge: Ghost in the Machine (TODO: use the exact challenge template line and link from the challenge page).*
@@ -72,6 +73,10 @@ paste code -> size gate -> Gemma 4 -> streaming parser -> validation (retry once
 
 ![Refining in chat: "less scary, a bit warmer please" turns the button gold](assets/chat.gif)
 
+**What the eval could not catch.** Validation checks the code, not the picture. My eval said 92% while the live preview could still show "The spirit froze". The cause turned up while I was capturing screenshots: if the slider was dragged to the far right, the possessed frame was clipped away completely, and browsers do not run `requestAnimationFrame` in a frame nobody can see. The frame waited on an animation frame to say "ready", never got one, and my five-second watchdog correctly declared it frozen. The fix was one line (also report ready from a timer) and a regression test, and it is a good example of why the watchdog existed in the first place.
+
+The model has quirks too. In one generated pricing card it put two `style` attributes on the same element. JSX accepts that and the last one wins, so a heading silently lost its font. My validator did not flag it. That is on the list of things I would fix next.
+
 **Readability.** After each possession the preview checks text against WCAG AA and, if the spirits made something hard to read, offers a "Fix contrast" button that asks Vesper to repair exactly those texts.
 
 ## Why Does Open Innovation Matter?
@@ -79,7 +84,7 @@ paste code -> size gate -> Gemma 4 -> streaming parser -> validation (retry once
 - **Agency code is client code.** With an open model you can run it on infrastructure you control. Possessed has a second provider that speaks the OpenAI-compatible API, so pointing it at Gemma on a DigitalOcean GPU Droplet is a config change rather than a rewrite. By default it calls Gemma through the Gemini API, and the site says so plainly: pasted code goes to that API.
 - **Predictable cost and no deprecation surprise** in the middle of a campaign, because the weights don't get switched off.
 - **You can see and change how the ghost is prompted and constrained.** The prompt, the effects library and the validation rules are all in the repo.
-- **Honest trade-offs.** Gemma struggled with large components and complex JSX, which is why the size gate exists. One of my 25 eval runs failed outright, and the 31B model was sometimes slow enough that the app falls back to the 26B one. The first live possession I ran took 111 seconds; later ones took about 48.
+- **Honest trade-offs.** One of my 25 eval runs failed outright, the model sometimes needs a retry, and the 31B model was slow enough on day two that the app fell back to the 26B one. My first live possession took 111 seconds; later ones took about 48, and on release day a five-run check averaged 40 s. The size gate exists because small components are where an open model is dependable, not because I tested the big ones and gave up on them.
 
 ## The Spirit of It
 
