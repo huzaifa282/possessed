@@ -7,7 +7,7 @@ tags: devchallenge, hf26challenge, webdev, opensource
 DRAFT 1. Open items before publishing (spec 10 §10.4):
   - [x] hero GIF, presets grid, chat GIF, refusal screenshot, cover (docs/assets). Images use relative paths: upload them to DEV and swap the links when publishing. Still missing: the 60-90 s video.
   - [ ] live link (T2.7, deploy not done yet)
-  - [ ] tokens per possession: not measured yet, do not guess
+  - [x] tokens per possession measured (see the table). It is one component (the pricing card), 5 runs: re-measure on the final build if you can.
   - [ ] live-site latency: eval numbers below are from the eval run, not the deployed site
   - [ ] the hook below follows spec 10 ("agency"); rewrite it if that is not your real story
   - [ ] DEV AI-disclosure setting on the post
@@ -64,7 +64,9 @@ paste code -> size gate -> Gemma 4 -> streaming parser -> validation (retry once
 | Passed validation without a retry | 23 of 25 (92%) |
 | Passed after one retry | 1 |
 | Failed | 1 |
-| Average latency per possession | 21.8 s |
+| Average latency per possession | 21.8 s (full eval); 16 to 56 s, average 40 s, in a later 5-run check on the same day |
+| Tokens per possession (pricing card, one call) | about 1,100 in, 600 to 800 out |
+| A retry | roughly doubles the prompt tokens (1,962 in for the one retried run) |
 
 *(These are eval numbers from my machine, not measurements of the deployed site.)*
 

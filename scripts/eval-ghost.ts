@@ -33,10 +33,13 @@ interface Row {
   ms: number;
   effects: string;
   detail: string;
+  /** Tokens summed over every call of this possession; null when the backend does not report them. */
+  tokens: { prompt: number; output: number } | null;
 }
 
-function counted(inner: ModelProvider): { provider: ModelProvider; calls: () => number; reset: () => void } {
+function counted(inner: ModelProvider) {
   let n = 0;
+  let usage: { prompt: number; output: number } | null = null;
   const provider: ModelProvider = {
     get id() {
       return inner.id;
@@ -44,17 +47,32 @@ function counted(inner: ModelProvider): { provider: ModelProvider; calls: () => 
     health: () => inner.health(),
     stream: (input, signal) => {
       n++;
-      return inner.stream(input, signal);
+      return (async function* () {
+        try {
+          yield* inner.stream(input, signal);
+        } finally {
+          const u = inner.lastUsage;
+          if (u) usage = { prompt: (usage?.prompt ?? 0) + u.promptTokens, output: (usage?.output ?? 0) + u.outputTokens };
+        }
+      })();
     },
   };
-  return { provider, calls: () => n, reset: () => (n = 0) };
+  return {
+    provider,
+    calls: () => n,
+    tokens: () => usage,
+    reset: () => {
+      n = 0;
+      usage = null;
+    },
+  };
 }
 
 async function main() {
   const intensity = Intensity.parse(args.intensity ?? "haunt");
   const presets = (args.presets ? args.presets.split(",") : Object.keys(PRESETS)).map((p) => PresetId.parse(p));
   const fixtures = POSITIVE.filter((f) => !args.only || f.startsWith(args.only));
-  const { provider, calls, reset } = counted(createProvider());
+  const { provider, calls, tokens, reset } = counted(createProvider());
   mkdirSync(OUT, { recursive: true });
 
   const rows: Row[] = [];
@@ -83,6 +101,7 @@ async function main() {
         ms: Date.now() - started,
         effects: effects?.type === "effects" ? effects.names.join(", ") : "",
         detail: failure && "message" in failure ? failure.message : "",
+        tokens: tokens(),
       };
       if (out?.type === "code") writeFileSync(path.join(OUT, `${name}-${preset}${ext}`), out.code);
       rows.push(row);
@@ -100,17 +119,21 @@ function writeSummary(rows: Row[], intensity: string, model: string) {
   const retried = rows.filter((r) => r.outcome === "pass after retry").length;
   const failed = rows.length - pass - retried;
   const avg = Math.round(rows.reduce((s, r) => s + r.ms, 0) / Math.max(rows.length, 1));
+  const counted = rows.filter((r) => r.tokens);
+  const tokenLine = counted.length
+    ? ` Average tokens per possession: ${Math.round(counted.reduce((s, r) => s + r.tokens!.prompt, 0) / counted.length)} in, ${Math.round(counted.reduce((s, r) => s + r.tokens!.output, 0) / counted.length)} out (${counted.length} of ${rows.length} runs reported usage).`
+    : "";
   const lines = [
     START,
     `## Eval run · ${new Date().toISOString()}`,
     "",
     `Model ${model} · intensity ${intensity} · ${rows.length} possessions · target ≥ 90% pass without retry`,
     "",
-    `**${pass} passed without retry (${Math.round((pass / Math.max(rows.length, 1)) * 100)}%)**, ${retried} after one retry, ${failed} failed. Average latency ${avg} ms. Contrast check: not wired yet (T3.2).`,
+    `**${pass} passed without retry (${Math.round((pass / Math.max(rows.length, 1)) * 100)}%)**, ${retried} after one retry, ${failed} failed. Average latency ${avg} ms.${tokenLine} Contrast check is not part of the eval (it needs a browser; see T3.2).`,
     "",
-    "| Fixture | Preset | Outcome | Calls | Latency | Effects | Note |",
-    "|---|---|---|---|---|---|---|",
-    ...rows.map((r) => `| ${r.fixture} | ${r.preset} | ${r.outcome} | ${r.calls} | ${r.ms} ms | ${r.effects} | ${r.detail.replace(/\|/g, "\\|")} |`),
+    "| Fixture | Preset | Outcome | Calls | Latency | Tokens in/out | Effects | Note |",
+    "|---|---|---|---|---|---|---|---|",
+    ...rows.map((r) => `| ${r.fixture} | ${r.preset} | ${r.outcome} | ${r.calls} | ${r.ms} ms | ${r.tokens ? `${r.tokens.prompt}/${r.tokens.output}` : "n/a"} | ${r.effects} | ${r.detail.replace(/\|/g, "\\|")} |`),
     END,
   ].join("\n");
 

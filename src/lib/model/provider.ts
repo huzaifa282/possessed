@@ -10,9 +10,16 @@ export interface StreamInput {
   maxOutputTokens: number;
 }
 
+export interface TokenUsage {
+  promptTokens: number;
+  outputTokens: number;
+}
+
 export interface ModelProvider {
   /** e.g. "gemini-gemma:gemma-4-31b-it" (reflects the model currently in use). */
   readonly id: string;
+  /** Token counts reported by the most recent request, when the backend reports them. */
+  readonly lastUsage?: TokenUsage | null;
   health(): Promise<{ ok: boolean; detail: string }>;
   stream(input: StreamInput, signal: AbortSignal): AsyncIterable<string>;
 }

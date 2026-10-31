@@ -1,7 +1,7 @@
 // Gemma 4 via Gemini API: streamGenerateContent (SSE), skip thought parts, retries, model switch. No responseMimeType.
 // Spec: specs/07-model-runtime.md §7.1
 // Task: T1.7
-import { ProviderError, type ModelProvider, type StreamInput } from "./provider";
+import { ProviderError, type ModelProvider, type StreamInput, type TokenUsage } from "./provider";
 
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 const BACKOFF_MS = [1000, 3000];
@@ -22,6 +22,7 @@ class FirstChunkTimeout extends Error {}
 
 export class GeminiGemmaProvider implements ModelProvider {
   private modelIdx = 0;
+  lastUsage: TokenUsage | null = null;
   private readonly fetchFn: typeof fetch;
   private readonly sleep: (ms: number) => Promise<void>;
   private readonly now: () => number;
@@ -126,6 +127,10 @@ export class GeminiGemmaProvider implements ModelProvider {
         throw new ProviderError(`Gemini API returned HTTP ${res.status}`, retryable, res.status);
       }
 
+      this.lastUsage = null;
+      const onUsage = (u: TokenUsage) => {
+        this.lastUsage = u;
+      };
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
@@ -137,10 +142,10 @@ export class GeminiGemmaProvider implements ModelProvider {
           buffer += decoder.decode(value, { stream: true });
           const events = buffer.split(/\r?\n\r?\n/);
           buffer = events.pop() ?? "";
-          for (const ev of events) yield* textOf(ev);
+          for (const ev of events) yield* textOf(ev, onUsage);
         }
         buffer += decoder.decode();
-        if (buffer.trim()) yield* textOf(buffer);
+        if (buffer.trim()) yield* textOf(buffer, onUsage);
       } finally {
         reader.cancel().catch(() => {});
       }
@@ -154,17 +159,22 @@ export class GeminiGemmaProvider implements ModelProvider {
   }
 }
 
-function* textOf(event: string): Generator<string> {
+function* textOf(event: string, onUsage: (u: TokenUsage) => void): Generator<string> {
   for (const line of event.split(/\r?\n/)) {
     if (!line.startsWith("data:")) continue;
     const payload = line.slice(5).trim();
     if (!payload || payload === "[DONE]") continue;
-    let json: { candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[] };
+    let json: {
+      candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[];
+      usageMetadata?: { promptTokenCount?: number; candidatesTokenCount?: number };
+    };
     try {
       json = JSON.parse(payload);
     } catch {
       continue;
     }
+    const u = json.usageMetadata;
+    if (u && typeof u.promptTokenCount === "number") onUsage({ promptTokens: u.promptTokenCount, outputTokens: u.candidatesTokenCount ?? 0 });
     for (const part of json.candidates?.[0]?.content?.parts ?? []) {
       if (part.thought) continue;
       if (part.text) yield part.text;

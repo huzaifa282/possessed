@@ -155,3 +155,19 @@ describe("createProvider", () => {
     expect(() => createProvider({ MODEL_PROVIDER: "nope", GEMINI_API_KEY: "k" })).toThrow(/Unsupported/);
   });
 });
+
+describe("token usage", () => {
+  it("reports the usage from the last chunk, and resets for the next request", async () => {
+    const usage = { promptTokenCount: 812, candidatesTokenCount: 240 };
+    const f = vi
+      .fn()
+      .mockResolvedValueOnce(streamResponse([sse(chunk("ab"), { ...chunk("cd"), usageMetadata: usage })]))
+      .mockResolvedValueOnce(streamResponse([sse(chunk("x"))]));
+    const p = new GeminiGemmaProvider({ apiKey: "k", models: ["m1"], fetch: f as unknown as typeof fetch, sleep: async () => {} });
+    expect(p.lastUsage).toBeNull();
+    for await (const t of p.stream({ system: "s", user: "u", temperature: 0, maxOutputTokens: 10 }, new AbortController().signal)) void t;
+    expect(p.lastUsage).toEqual({ promptTokens: 812, outputTokens: 240 });
+    for await (const t of p.stream({ system: "s", user: "u", temperature: 0, maxOutputTokens: 10 }, new AbortController().signal)) void t;
+    expect(p.lastUsage).toBeNull();
+  });
+});
