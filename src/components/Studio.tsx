@@ -185,7 +185,7 @@ export default function Studio() {
       </main>
 
       <footer className="border-t border-wood-light px-4 py-4 text-center text-xs text-ink/70">
-        Possessed by Gemma 4 (open weights) · hosted on DigitalOcean · your code is never stored.
+        Possessed by Gemma 4 (open weights) · hosted on Vercel · your code is never stored.
       </footer>
     </div>
   );

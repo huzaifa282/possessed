@@ -1,5 +1,5 @@
 ---
-title: "Possessed: paste any UI component, a ghost designer haunts it (open-weight Gemma on DigitalOcean)"
+title: "Possessed: paste any UI component, a ghost designer haunts it (open-weight Gemma 4)"
 tags: devchallenge, hf26challenge, webdev, opensource
 ---
 
@@ -37,8 +37,7 @@ Hand it a whole page and it says *"This is beyond my ghostly powers."* That refu
 
 ## Demo
 
-- Live site: **TODO live link**
-- Video: **TODO unlisted YouTube link**
+- Live site: https://possessed-seven.vercel.app
 
 Try the three sample buttons (pricing card, login form, navbar), or paste one of your own.
 
@@ -92,7 +91,6 @@ The Día de los Muertos preset is not a skull filter. It is a celebration of rem
 
 ## Prize Categories
 
-- **DigitalOcean**: TODO, depends on the deploy
 - **Gemma**: Gemma 4 is the engine for every possession
 
 ## Bring me one component at a time

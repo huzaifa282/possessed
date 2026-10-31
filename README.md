@@ -7,7 +7,7 @@ Possessed returns spooky-themed code for your component and shows a live before/
 Built for the DEV Hacktoberfest Week 4 challenge, **"Ghost in the Machine"**. Powered by Gemma 4 (open weights).
 
 ![A pricing card being possessed: the before/after slider sweeps from the plain card to a Haunted Victorian one](docs/assets/hero.gif)
-<!-- TODO(T2.7): live link -->
+**Live: https://possessed-seven.vercel.app**
 
 ![The same pricing card in all five presets](docs/assets/presets.png)
 
@@ -62,7 +62,7 @@ This repo is built spec-first:
 | `decisions/` | Architecture decision records |
 | `src/` | Next.js 16 (App Router), TypeScript strict, Tailwind v4, Zod at every boundary |
 
-Deployment target: DigitalOcean App Platform (`.do/app.yaml`).
+Deployed on Vercel. `.do/app.yaml` is an unused DigitalOcean App Platform spec.
 
 ## License
 
